@@ -8,6 +8,9 @@ public class FixDiscountPolicy implements DiscountPolicy{
     // 1000원 할인
     private int discountFixAmount = 1000;
 
+    // 10% 할인
+    private int discountPercent = 10;
+
     @Override
     public int discount(Member member, int price) {
        // enum 타입의 경우, 비교할 때 ==을 사용
@@ -17,5 +20,4 @@ public class FixDiscountPolicy implements DiscountPolicy{
             return 0;
         }
     }
-
 }
