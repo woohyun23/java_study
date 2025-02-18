@@ -1,5 +1,6 @@
 package hello.core;
 
+import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
@@ -18,11 +19,20 @@ public class AppConfig {
         // 추상화에 의존하여 MemberServiceImpl 클래스에서
         // MemoryMemberRepository를 구성하는 것이 아닌
         // 생성자를 통해서 객체가 생성 -> 생성자 주입
-        // : 의존 관계 주입
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        // : 의존성 주입
+        return new MemberServiceImpl(memberRepository());
+    }
+
+    private static MemoryMemberRepository memberRepository() {
+        // DB를 변경하게 되면, 이 부분만 수정하면 수정 완료
+        return new MemoryMemberRepository();
     }
 
     public OrderService orderService() {
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        return new OrderServiceImpl(memberRepository(), new FixDiscountPolicy());
+    }
+
+    public DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
     }
 }
